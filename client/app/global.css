@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base font loading and optimization */
-
 @layer components {
 	/* Layout Components */
 	.main-container {
