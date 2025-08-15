@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 import './global.css';
 import CustomText from '@/src/components/CustomText';
+import { Link } from 'expo-router';
 
 export default function Index() {
 	return (
@@ -9,6 +10,9 @@ export default function Index() {
 				Welcome to Nativewind!
 			</Text>
 			<CustomText />
+			<Link href="/+not-found">
+				<Text className="text-blue-500">Go to Not Found</Text>
+			</Link>
 		</View>
 	);
 }
