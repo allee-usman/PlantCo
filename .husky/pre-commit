@@ -1,24 +1,56 @@
 #!/usr/bin/env sh
 
-echo "🔧 Running pre-commit formatting..."
+echo "🔧 Checking what changed for formatting..."
 
-# Format backend
-if [ -d "backend" ]; then
-  echo "📁 Formatting backend..."
-  cd backend
-  npm run format 2>/dev/null || echo "Backend format failed"
-  cd ..
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only)
+
+# Check if backend files are staged
+BACKEND_CHANGED=false
+CLIENT_CHANGED=false
+
+for file in $STAGED_FILES; do
+  case $file in
+    backend/*)
+      BACKEND_CHANGED=true
+      ;;
+    client/*)
+      CLIENT_CHANGED=true
+      ;;
+  esac
+done
+
+# Format backend only if backend files changed
+if [ "$BACKEND_CHANGED" = true ]; then
+  if [ -d "backend" ]; then
+    echo "📁 Formatting backend (files changed)..."
+    cd backend
+    npm run format 2>/dev/null || echo "Backend format failed"
+    cd ..
+    # Re-add formatted backend files
+    git add backend/
+  fi
+else
+  echo "⏭️  Skipping backend formatting (no changes)"
 fi
 
-# Format client
-if [ -d "client" ]; then
-  echo "📁 Formatting client..."
-  cd client
-  npx prettier --write . --plugin=prettier-plugin-tailwindcss 2>/dev/null || echo "Client format failed"
-  cd ..
+# Format client only if client files changed
+if [ "$CLIENT_CHANGED" = true ]; then
+  if [ -d "client" ]; then
+    echo "📁 Formatting client (files changed)..."
+    cd client
+    npx prettier --write . --plugin=prettier-plugin-tailwindcss 2>/dev/null || echo "Client format failed"
+    cd ..
+    # Re-add formatted client files
+    git add client/
+  fi
+else
+  echo "⏭️  Skipping client formatting (no changes)"
 fi
 
-# Add all formatted files to commit
-git add .
+# If neither changed, nothing to format
+if [ "$BACKEND_CHANGED" = false ] && [ "$CLIENT_CHANGED" = false ]; then
+  echo "ℹ️  No backend or client files changed"
+fi
 
 echo "✅ Pre-commit formatting complete!"
