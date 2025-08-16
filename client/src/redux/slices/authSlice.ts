@@ -29,7 +29,7 @@ const initialState: AuthState = {
   isInitialized: false, // Initially false until we check for stored token
 };
 
-const BASE_URI = "http://192.168.100.10:8080";
+const BASE_URI = process.env.SERVER_URI;
 
 // 'auth/registerUser' -> Action type prefix
 export const registerUser = createAsyncThunk<
