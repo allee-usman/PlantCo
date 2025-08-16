@@ -27,8 +27,8 @@ if [ "$BACKEND_CHANGED" = true ]; then
     cd backend
     npm run format 2>/dev/null || echo "Backend format failed"
     cd ..
-    # Re-add formatted backend files
-    git add backend/
+    # Only re-add the files that were originally staged
+    echo "$STAGED_FILES" | grep "^backend/" | xargs -r git add
   fi
 else
   echo "⏭️  Skipping backend formatting (no changes)"
@@ -41,8 +41,8 @@ if [ "$CLIENT_CHANGED" = true ]; then
     cd client
     npx prettier --write . --plugin=prettier-plugin-tailwindcss 2>/dev/null || echo "Client format failed"
     cd ..
-    # Re-add formatted client files
-    git add client/
+    # Only re-add the files that were originally staged
+    echo "$STAGED_FILES" | grep "^client/" | xargs -r git add
   fi
 else
   echo "⏭️  Skipping client formatting (no changes)"
