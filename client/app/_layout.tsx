@@ -1,14 +1,23 @@
-import { Stack } from "expo-router";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
+import { loadToken } from "@/src/redux/slices/authSlice";
+import { RootState, store } from "@/src/redux/store";
 import { useFonts } from "expo-font";
-import "./global.css";
-import { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
+import { Stack } from "expo-router";
+import { useCallback, useEffect } from "react";
+import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
-import { store } from "@/src/redux/store";
+import "./global.css";
 
+import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function AppContent() {
+  const dispatch = useAppDispatch();
+  const { token, isInitialized } = useAppSelector(
+    (state: RootState) => state.auth,
+  );
+
   const [fontsLoaded] = useFonts({
     "Nexa-100": require("../assets/fonts/NexaThin.otf"),
     "Nexa-300": require("../assets/fonts/Nexa-Light.otf"),
@@ -22,22 +31,39 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+    dispatch(loadToken());
+  }, [dispatch]);
 
-  if (!fontsLoaded) {
+  // Hide the native splash ONLY when both fonts and auth are ready,
+  // and after the root view has laid out (avoids a flash).
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded && isInitialized) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, isInitialized]);
+
+  // if loading, return null to keep splash screen visible
+  if (!fontsLoaded || !isInitialized) {
     return null;
   }
 
+  //TODO: Implement the root stack navigator
   return (
-    <Provider store={store}>
-      <Stack screenOptions={{ headerShown: false }}>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Stack initialRouteName={token ? "(root)" : "(auth)"}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(root)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>
+    </View>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <Provider store={store}>
+      <AppContent />
+      <Toast />
     </Provider>
   );
 }
