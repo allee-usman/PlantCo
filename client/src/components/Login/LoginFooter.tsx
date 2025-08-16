@@ -30,7 +30,7 @@ export const LoginFooter: React.FC<LoginFooterProps> = ({
         className="h-[60px] w-full"
       />
 
-      <View className="mt-2 flex-row justify-center">
+      <View className="mt-3 flex-row justify-center">
         <Link
           href="/(auth)/signup"
           disabled={isLoading}
