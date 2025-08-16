@@ -1,3 +1,195 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Layout Components */
+  .main-container {
+    @apply flex-1 items-center justify-center bg-light-screen px-5 pt-5 dark:bg-gray-950;
+  }
+
+  .button {
+    @apply mb-3 h-[60px] flex-row items-center justify-center rounded-full px-6 py-3 shadow-lg;
+  }
+
+  .input {
+    @apply flex-row items-center rounded-full bg-light-surface px-5 py-3 dark:bg-gray-800;
+  }
+
+  /* State Components */
+
+  /* .success-border {
+		@apply border-green-400 dark:border-green-500;
+	} */
+
+  /* Utility Components */
+  .border-default {
+    @apply border-gray-300 dark:border-gray-700;
+  }
+
+  .icon {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .btn-disabled {
+    @apply cursor-not-allowed bg-gray-200 font-nexa text-gray-400 dark:bg-gray-700 dark:text-gray-600;
+  }
+
+  .focus-visible {
+    @apply focus-visible:ring-2 focus-visible:ring-light-accent dark:focus-visible:ring-dark-accent;
+  }
+
+  /* ===== TYPOGRAPHY SYSTEM ===== */
+
+  /* Display & Title Typography */
+  .text-title {
+    @apply font-nexa-heavy text-6xl  tracking-tight text-light-title dark:text-dark-title;
+  }
+
+  .text-title-variant {
+    @apply font-nexa-black text-6xl tracking-tight text-light-pallete-800 dark:text-gray-50;
+  }
+
+  /* Heading Typography */
+
+  .text-heading-1 {
+    @apply font-nexa-extrabold text-5xl text-light-title dark:text-gray-200;
+  }
+
+  .text-heading-2 {
+    @apply font-nexa-bold text-4xl text-light-title dark:text-gray-100;
+  }
+
+  .text-heading-3 {
+    @apply font-nexa-bold text-3xl text-light-title dark:text-gray-200;
+  }
+
+  .text-heading-4 {
+    @apply font-nexa-book text-2xl text-light-title dark:text-gray-200;
+  }
+
+  .text-heading-5 {
+    @apply font-nexa-book text-xl text-light-title dark:text-gray-200;
+  }
+
+  .text-heading-6 {
+    @apply font-nexa-book text-lg font-medium text-light-title dark:text-gray-200;
+  }
+
+  /* Body Typography */
+  .text-body-xl {
+    @apply font-nexa text-xl text-gray-800 dark:text-gray-300;
+  }
+
+  .text-body-lg {
+    @apply font-nexa text-lg text-gray-700 dark:text-gray-400;
+  }
+
+  .text-body {
+    @apply font-nexa text-base text-gray-700 dark:text-gray-400;
+  }
+
+  .text-body-sm {
+    @apply font-nexa text-sm text-gray-700 dark:text-gray-300;
+  }
+
+  .text-body-xs {
+    @apply font-nexa text-xs  text-gray-700 dark:text-gray-400;
+  }
+
+  /* Caption & Meta Typography */
+  .text-caption {
+    @apply font-nexa-light text-xs text-gray-500 dark:text-gray-500;
+  }
+
+  .text-meta {
+    @apply font-nexa-light text-xs  text-gray-400 dark:text-gray-600;
+  }
+
+  /* Interactive Typography */
+  .text-link {
+    @apply font-nexa-bold text-sm  text-light-accent underline-offset-2 hover:underline dark:text-dark-accent;
+  }
+
+  .text-link-lg {
+    @apply font-semibol font-nexa-bold text-base text-light-accent underline-offset-2 hover:underline dark:text-dark-accent;
+  }
+
+  /* State Typography */
+  .text-disabled {
+    @apply font-nexa text-sm text-light-disabled dark:text-gray-600;
+  }
+
+  .text-inactive {
+    @apply font-nexa text-sm text-light-inactive dark:text-gray-600;
+  }
+
+  /* .text-error {
+		@apply text-xs font-nexa text-red-600 dark:text-red-400;
+	} */
+
+  /* .text-success {
+		@apply font-nexa text-green-600 dark:text-green-400;
+	}
+
+	.text-warning {
+		@apply font-nexa text-yellow-600 dark:text-yellow-400;
+	} */
+}
+
+@layer utilities {
+  /* Button Size Utilities */
+  .btn-xs {
+    @apply h-[28px] w-[60px] px-2 py-1 text-xs;
+  }
+
+  .btn-sm {
+    @apply h-[35px] w-[80px] px-3 py-2 text-sm;
+  }
+
+  .btn-md {
+    @apply h-[48px] w-[128px] px-4 py-3 text-base;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  .btn-xl {
+    @apply px-10 py-5 text-xl;
+  }
+
+  /* Button Style Utilities */
+  .btn-primary {
+    @apply bg-light-pallete-500 font-nexa-book font-medium text-white dark:bg-dark-pallete-500;
+  }
+
+  .btn-secondary {
+    @apply bg-light-pallete-600 font-nexa-book font-medium text-white dark:bg-dark-pallete-600;
+  }
+
+  .btn-outlined {
+    @apply border-2 border-light-pallete-500 bg-transparent font-nexa-book font-medium text-light-pallete-950 dark:border-dark-pallete-500 dark:text-dark-title;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent font-nexa font-medium text-light-pallete-700 hover:bg-light-pallete-50 dark:text-dark-pallete-300 dark:hover:bg-dark-pallete-950;
+  }
+
+  /* Typography Utilities */
+  .font-display {
+    @apply font-nexa-black font-black tracking-tight;
+  }
+
+  .font-headline {
+    @apply font-nexa-extrabold font-extrabold tracking-tight;
+  }
+
+  .font-body {
+    @apply font-nexa  tracking-normal;
+  }
+
+  .font-caption {
+    @apply font-nexa-light font-light tracking-wide;
+  }
+}
