@@ -3,6 +3,8 @@ import { useFonts } from "expo-font";
 import "./global.css";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { Provider } from "react-redux";
+import { store } from "@/src/redux/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,10 +32,12 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-    </Stack>
+    <Provider store={store}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+      </Stack>
+    </Provider>
   );
 }
