@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 
 // Testing Route
 app.get('/', async (req, res) => {
-	res.send('Hi, Welcome to PlantCo!');
+  res.send('Hi, Welcome to PlantCo!');
 });
 
 export default app;
