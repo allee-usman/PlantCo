@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+echo "🔧 Running pre-commit formatting..."
+
+# Format backend
+if [ -d "backend" ]; then
+  echo "📁 Formatting backend..."
+  cd backend
+  npm run format 2>/dev/null || echo "Backend format failed"
+  cd ..
+fi
+
+# Format client
+if [ -d "client" ]; then
+  echo "📁 Formatting client..."
+  cd client
+  npx prettier --write . --plugin=prettier-plugin-tailwindcss 2>/dev/null || echo "Client format failed"
+  cd ..
+fi
+
+# Add all formatted files to commit
+git add .
+
+echo "✅ Pre-commit formatting complete!"
