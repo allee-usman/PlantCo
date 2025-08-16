@@ -1,10 +1,12 @@
 import CustomButton from '@/src/components/ui/CustomButton/CustomButton';
 import { onboarding } from '@/src/constants/onboarding';
 import { OnboardingItem } from '@/src/interfaces/interface';
-import { router } from 'expo-router';
+import { getSecureItem, saveSecureItem } from '@/src/utils/secureStore';
+import { Redirect, router } from 'expo-router';
 import { useColorScheme } from 'nativewind';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+	ActivityIndicator,
 	Dimensions,
 	Image,
 	StatusBar,
@@ -20,13 +22,19 @@ const { width } = Dimensions.get('window');
 export default function Onboarding() {
 	const { colorScheme } = useColorScheme();
 	const isDark = colorScheme === 'dark';
+
+	const [loading, setLoading] = useState(true);
+	const [shouldRedirect, setShouldRedirect] = useState(false);
+
 	const swiperRef = useRef<SwiperFlatList>(null);
 	const [activeIndex, setActiveIndex] = useState<number>(0);
 	const isLastPage = activeIndex === onboarding.length - 1;
 
 	const handleContinue = async () => {
+		await saveSecureItem('hasSeenWelcome', 'true');
 		router.replace('/(auth)/signup');
 	};
+
 	const handleNext = () => {
 		swiperRef.current?.scrollToIndex({
 			index: activeIndex + 1,
@@ -55,6 +63,19 @@ export default function Onboarding() {
 		}),
 		[isDark]
 	);
+
+	useEffect(() => {
+		(async () => {
+			const seen = await getSecureItem('hasSeenWelcome');
+			if (seen === 'true') {
+				setShouldRedirect(true);
+			}
+			setLoading(false);
+		})();
+	}, []);
+
+	if (loading) return <ActivityIndicator />;
+	if (shouldRedirect) return <Redirect href="/(auth)/login" />;
 
 	const lastPage = (item: OnboardingItem) => (
 		<View key={item.id} className="flex flex-col pl-5 h-full">
@@ -109,6 +130,7 @@ export default function Onboarding() {
 				accessibilityLabel="Skip onboarding"
 				accessibilityRole="button"
 				onPress={async () => {
+					await saveSecureItem('hasSeenWelcome', 'true');
 					router.replace('/(auth)/signup');
 				}}
 			>
