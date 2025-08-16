@@ -4,7 +4,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { clsx } from "clsx";
 import React from "react";
 import {
-  Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
@@ -16,6 +15,7 @@ import {
   getPlaceholderColor,
   getTextColor,
 } from "./inputFieldHelpers";
+import ValidationError from "./ValidationError";
 
 const InputField: React.FC<InputFieldProps> = (props) => {
   const { colorScheme } = useColorScheme();
@@ -87,14 +87,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
       </View>
 
       {/* Error Text */}
-      {props.error && (
-        <View className="ml-2 mt-2 flex flex-row items-center">
-          <Ionicons name="alert-circle" size={13} color="#dc2626" />
-          <Text className="ml-1 font-nexa text-xs text-red-600">
-            {props.error}
-          </Text>
-        </View>
-      )}
+      {props.error && <ValidationError message={props.error} />}
     </View>
   );
 };
